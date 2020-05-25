@@ -1,34 +1,28 @@
 package com.example.controller;
 
 
-import com.example.services.UserManage;
+import com.example.model.Numbers;
+import com.example.services.NumberManage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 class RootController {
 
     @Autowired
-    private UserManage userManage;
+    private NumberManage numberManage;
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public void health(final HttpServletResponse r) {
+    @RequestMapping(value = "/setNo", method = RequestMethod.POST)
+    public int getNo(@RequestBody Numbers no) {
         try {
-            userManage.getUser();
-            r.setStatus(HttpStatus.NO_CONTENT.value());
+            return numberManage.getNo(no);
         } catch (final Exception e) {
-            //log.error(e.getMessage(), e);
-            r.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return HttpStatus.INTERNAL_SERVER_ERROR.value();
         }
-    }
-
-    @RequestMapping(value = "/ms-batch/hello", method = RequestMethod.GET)
-    public String hello(final HttpServletResponse r) {
-        return "OK v1.0.0";
     }
 
 
